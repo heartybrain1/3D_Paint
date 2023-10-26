@@ -12,6 +12,9 @@ namespace CR
 #if UNITY_2023_1_OR_NEWER
         private RTHandle m_Source;
         private RTHandle m_TempDest;
+#elif UNITY_2022_3_OR_NEWER
+        private RTHandle m_Source;
+        private RTHandle m_TempDest;
 #else
         private RenderTargetIdentifier m_Source;
         private RenderTargetHandle m_TempDest;
@@ -66,6 +69,8 @@ namespace CR
         {
 #if UNITY_2023_1_OR_NEWER
             m_TempDest?.Release();
+#elif UNITY_2022_3_OR_NEWER
+            m_TempDest?.Release();
 #endif
         }
 
@@ -76,6 +81,8 @@ namespace CR
 #if UNITY_2023_1_OR_NEWER
                 m_CleanOutlineMaterial = new Material(Shader.Find("CR/CleanOutline23"));
                 //ConfigureInput(ScriptableRenderPassInput.Normal ^ ScriptableRenderPassInput.Color ^ ScriptableRenderPassInput.Depth);
+#elif UNITY_2022_3_OR_NEWER
+                m_CleanOutlineMaterial = new Material(Shader.Find("CR/CleanOutline22"));
 #else
                 m_CleanOutlineMaterial = new Material(Shader.Find("CR/CleanOutline"));
 #endif
@@ -95,6 +102,8 @@ namespace CR
             
 #if UNITY_2023_1_OR_NEWER
             m_Source = renderingData.cameraData.renderer.cameraColorTargetHandle;
+#elif UNITY_2022_3_OR_NEWER            
+            m_Source = renderingData.cameraData.renderer.cameraColorTargetHandle;
 #else
             m_Source = renderingData.cameraData.renderer.cameraColorTarget;
 #endif
@@ -104,8 +113,11 @@ namespace CR
             InitMaterialIfNeeded();
             ConfigureInput(ScriptableRenderPassInput.Normal);          
 #if UNITY_2023_1_OR_NEWER
+
+#elif UNITY_2022_3_OR_NEWER
+            RenderingUtils.ReAllocateIfNeeded(ref m_TempDest, descriptor, name: "_CleanOutlineTemp");
 #else
-                m_TempDest.Init("_CleanOutlineTemp");
+            m_TempDest.Init("_CleanOutlineTemp");
 #endif
        }
 
@@ -176,6 +188,9 @@ namespace CR
 
                     CoreUtils.SetRenderTarget(cmd, renderingData.cameraData.renderer.cameraColorTargetHandle);
                     CoreUtils.DrawFullScreen(cmd, m_CleanOutlineMaterial);
+#elif UNITY_2022_3_OR_NEWER
+                    Blitter.BlitTexture(cmd, m_Source, m_TempDest, m_CleanOutlineMaterial, 0);
+                    Blitter.BlitCameraTexture(cmd, m_TempDest, m_Source);
 #else
                     RenderTextureDescriptor cameraTexDesc = renderingData.cameraData.cameraTargetDescriptor;
                     cmd.GetTemporaryRT(m_TempDest.id, cameraTexDesc, FilterMode.Point);
@@ -193,6 +208,7 @@ namespace CR
         public override void OnCameraCleanup(CommandBuffer cmd)
         { 
 #if UNITY_2023_1_OR_NEWER
+#elif UNITY_2022_3_OR_NEWER
 #else
             cmd.ReleaseTemporaryRT(m_TempDest.id);
 #endif

@@ -8,6 +8,7 @@ using PaintIn3D;
 public enum brushType { brush_0, brush_1, brush_2, brush_3, brush_4, brush_5, brush_6 }
 public enum toolType { toolBrush, toolDot, toolLine, tool_3, type_4, type_5, type_6 }
 
+
 public class ColorManager : MonoBehaviour
 {
 

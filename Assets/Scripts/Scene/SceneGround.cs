@@ -7,14 +7,13 @@ public class SceneGround : SceneLoader
     
     protected override void sceneLoad()
     {
-
-        themeType myType = (themeType)TempGameManager.indexTheme;
+        themeType myType = (themeType)GameManager.indexTheme;
         string nameTheme = myType.ToString();
        
-        int index = TempGameManager.indexLevel;
+        int index = GameManager.indexLevel;
 
-        Debug.Log(TempGameManager.indexTheme);
-        Debug.Log(TempGameManager.indexLevel);
+        Debug.Log(GameManager.indexTheme);
+        Debug.Log(GameManager.indexLevel);
         string path = "Prefabs/" + nameTheme +"_"+ index.ToString();
 
         GameObject gamePrefab = Resources.Load(path) as GameObject;

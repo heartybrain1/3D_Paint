@@ -8,11 +8,11 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
     public Coroutine corBGM;
-   
+
     private AudioSource sourceAmbiance;
     private AudioSource sourceBackgroundM;
     private AudioSource sourcePlayer;
-   
+
     private float bookmark = 0;
 
     void Awake()
@@ -23,8 +23,10 @@ public class SoundManager : MonoBehaviour
         sourcePlayer = transform.GetChild(2).GetComponent<AudioSource>();
 
         DontDestroyOnLoad(gameObject);
-      
+
     }
+}
+    /*
 
     public void setSoundHome()
     {
@@ -146,4 +148,6 @@ public class SoundManager : MonoBehaviour
         //float randomVol = Random.Range(0.5f, 1.0f);
         sourcePlayer.PlayOneShot(clip, 1);
     }
+   
 }
+    */

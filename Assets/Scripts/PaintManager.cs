@@ -20,7 +20,13 @@ public class PaintManager : MonoBehaviour
     public void updatePaint()
     {
         SceneManager.LoadScene("2_Play");
-        TempGameManager.indexPaintable = -1;
+        GameManager.indexPaintable = -1;
+
+    }
+
+    public void toggleTouchMode()
+    {
+
 
     }
 }

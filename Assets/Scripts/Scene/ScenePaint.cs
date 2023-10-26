@@ -7,20 +7,16 @@ public class ScenePaint : SceneLoader
     
     protected override void sceneLoad()
     {
-
-
-     
-
-        themeType myType = (themeType)TempGameManager.indexTheme;
+        themeType myType = (themeType)GameManager.indexTheme;
         string nameTheme = myType.ToString();
 
-        int index = TempGameManager.indexLevel;
+        int index = GameManager.indexLevel;
 
-        Debug.Log(TempGameManager.indexTheme);
-        Debug.Log(TempGameManager.indexLevel);
-        Debug.Log(TempGameManager.indexPaintable);
+        Debug.Log(GameManager.indexTheme);
+        Debug.Log(GameManager.indexLevel);
+        Debug.Log(GameManager.indexPaintable);
 
-        string path = "Prefabs/Paintable/" + nameTheme + "_" + index.ToString() + "_" + TempGameManager.indexPaintable.ToString();
+        string path = "Prefabs/Paintable/" + nameTheme + "_" + index.ToString() + "_" + GameManager.indexPaintable.ToString();
 
         GameObject gamePrefab = Resources.Load(path) as GameObject;
         GameObject obj = Instantiate(gamePrefab);
